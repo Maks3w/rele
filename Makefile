@@ -1,5 +1,5 @@
 .PHONY: clean-pyc clean-build release docs help
-.PHONY: lint test coverage test-codecov
+.PHONY: lint test
 .DEFAULT_GOAL := help
 
 help:
@@ -26,11 +26,7 @@ lint: ## check style with flake8
 	isort --check-only
 
 test: ## run tests quickly with the default Python
-	python runtests.py tests
-
-coverage: ## generates codecov report
-	coverage run --source rele runtests.py tests
-	coverage report -m
+	python -m pytest --junit-xml=junit.xml --cov-report xml:coverage.xml --cov
 
 release: clean install-deploy-requirements sdist ## package and upload a release
 	twine upload -u mercadonatech dist/*

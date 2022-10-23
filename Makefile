@@ -60,7 +60,7 @@ docker-build:
 	docker build -t rele .
 
 docker-test: docker-build
-	docker run -it --rm --name rele rele
+	docker run -it --rm --name rele --volume ${PWD}:/rele rele
 
 docker-shell: docker-build
 	docker run -it --rm --name rele --volume ${PWD}:/rele rele /bin/bash

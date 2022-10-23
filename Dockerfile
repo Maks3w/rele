@@ -1,11 +1,14 @@
-FROM python:3.8-buster
+FROM python:3.10-buster
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /rele
 LABEL python_version=python
 
-COPY . .
+COPY requirements requirements/
+RUN pip install -r requirements/django.txt -r requirements/test.txt
 
-RUN make install-dev-requirements
+COPY Makefile setup.py README.md ./
+COPY rele/__init__.py rele/
+RUN make install-requirements
 
-CMD ["make", "clean", "lint", "test"]
+CMD ["make", "clean", "lint-fix", "test"]
